@@ -1,0 +1,17 @@
+{
+  "name": "sqllite-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "appUsers.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node appProductos.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prompt-sync": "^4.2.0",
+    "sqlite3": "^5.1.7"
+  }
+}

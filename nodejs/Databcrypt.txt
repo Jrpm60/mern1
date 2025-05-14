@@ -1,0 +1,5 @@
+
+La contraseña para el usuario Ana es $2b$10$avDfH5DD.jc99ZDVpC.gFO0n1zJLvO7LGf97i4oygSzbfsuBjzKku
+La contraseña para el usuario Pedro es $2b$10$i.LDQmk4pb70AOuMSvyLsumiB2sDkRXwh3NMSW1R8.w2m2Wx6wj0.
+La contraseña para el usuario Luis es $2b$10$enAZHoxdOE7sCB32RMhh3.rx277Lk4T1a6qh.XRc5eSXRYR/bcDX6
+La contraseña para el usuario Pepe es $2b$10$tYJ7k5V1re0atkuF.neh..vC56jcrPjpSE2MoRBWt2lAi/qaKpT1.

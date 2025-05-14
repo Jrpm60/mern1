@@ -1,0 +1,25 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jsdoc": "^4.0.4"
+  },
+  "jest": {
+    "collectCoverage": true
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "pouchdb": "^9.0.0",
+    "prompt-sync": "^4.2.0"
+  }
+}
