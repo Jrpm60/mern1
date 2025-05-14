@@ -1,0 +1,28 @@
+curl -X POST localhost:5000/api/v1/users -H "Content-Type: application/json" -d "{\"nombre\": \"olga\", \"edad\": 33}"
+
+curl -X GET localhost:5000/api/v1/users
+
+curl -X DELETE localhost:5000/api/v1/users/aad9d54f-93d1-4cf7-89f7-3437d348e0c4
+
+curl -X PUT localhost:5000/api/v1/users/015abc38-2be6-44a3-aa70-d8dd4a0c98ec -H "Content-Type: application/json" -d "{\"nombre\": \"olga\", \"edad\": 1975}"
+
+
+COCHES
+
+curl -X POST localhost:5000/api/v1/coches -H "Content-Type: application/json" -d "{\"marca\": \"Toyota\", \"modelo\": \"RAV-4\",\"año\": \"2020\",\"color\": \"Blanco\",\"puertas\": \"4\", \"precio\": \"20000\", \"imagen\": \"https://picsum.photos/400/300?random=1\"}"
+curl -X POST localhost:5000/api/v1/coches -H "Content-Type: application/json" -d "{\"marca\": \"Ford\", \"modelo\": \"Kuga\",\"año\": \"2025\",\"color\": \"Negro\",\"puertas\": \"5\", \"precio\": \"50000\", \"imagen\": \"https://picsum.photos/400/300?random=2\"}"
+curl -X POST localhost:5000/api/v1/coches -H "Content-Type: application/json" -d "{\"marca\": \"BMW\", \"modelo\": \"X6\",\"año\": \"2021\",\"color\": \"Verde\",\"puertas\": \"4\", \"precio\": \"65000\", \"imagen\": \"https://picsum.photos/400/300?random=3\"}"
+curl -X POST localhost:5000/api/v1/coches -H "Content-Type: application/json" -d "{\"marca\": \"Mercedes\", \"modelo\": \"S600\",\"año\": \"1989\",\"color\": \"Rojo\",\"puertas\": \"5\", \"precio\": \"70000\", \"imagen\": \"https://picsum.photos/400/300?random=4\"}"
+curl -X POST localhost:5000/api/v1/coches -H "Content-Type: application/json" -d "{\"marca\": \"Lexus\", \"modelo\": \"500-H\",\"año\": \"2000\",\"color\": \"Azul\",\"puertas\": \"3\", \"precio\": \"68000\", \"imagen\": \"https://picsum.photos/400/300?random=5\"}"
+
+curl -X GET localhost:5000/api/v1/coches
+
+curl -X DELETE localhost:5000/api/v1/coches/8308f975-6e15-4f20-8b39-13b78daccbd6
+
+curl -X PUT localhost:5000/api/v1/users/7afb7352-f4ba-4026-94e8-c13afb52b640 -H "Content-Type: application/json" -d "{\"marca\": \"Mercedes\", \"modelo\": \"S600\",\"año\": \"1989\",\"color\": \"Rojo\",\"puertas\": \"5\", \"precio\": \"99999\", \"imagen\": \"https://picsum.photos/400/300?random=4\"}"
+
+API clave Geminy
+AIzaSyDPc7qtctN0zM3KJ2pBaQZWaQRq5eR_tjA
+
+
+
