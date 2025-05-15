@@ -9,6 +9,7 @@ import motivacionRouter from './routes/motivacion.js';
 import {logger} from './middleware/logger.js';
 import conversionRouter from './routes/conversion.js';
 import gimnasiosRouter from './routes/gimnasios.js';
+import eurovisionRouter from './routes/eurovision.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,8 +28,8 @@ app.use('/api/v1/ingles', inglesRouter);
 app.use('/api/v1/motivacion', motivacionRouter);
 app.use('/api/v1/conversion', conversionRouter);
 app.use('/api/v1/gimnasios', gimnasiosRouter);
+app.use('/api/v1/eurovision', eurovisionRouter);
 app.use('/api/v2/conversion', conversionRouter);
-
 
 
 //Start server
