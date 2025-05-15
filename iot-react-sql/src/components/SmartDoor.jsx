@@ -1,73 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import initSqlJs from 'sql.js';
+import React, { useState } from 'react';
 
 const SmartDoor = () => {
-  const [db, setDb] = useState(null);
-  const [logs, setLogs] = useState([]);
+  const [puertaSeleccionada, setPuertaSeleccionada] = useState('');
+  const [numeroSocio, setNumeroSocio] = useState('');
 
-  useEffect(() => {
-    initSqlJs({
-      locateFile: file => `https://sql.js.org/dist/${file}` //sql-wasm.wasm = SQLite engine compiled to run in browsers
-    }).then(SQL => {
-      const db = new SQL.Database(); // Crear db en memoria
+  const handlePuertaChange = (event) => {
+    setPuertaSeleccionada(event.target.value);
+  };
 
-  
-      db.run(
-        `CREATE TABLE IF NOT EXISTS logs 
-        (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        doorId TEXT,
-        userId NUMBER,
-        status TEXT,
-        fecha_In DATE,
-        fecha_Out DATE        
-        );`
-    );      
-  
-      setDb(db);
-    }).catch(err => {
-      console.error("Error initializing SQL.js:", err);
-    });
-  }, []);
+  const handleNumeroSocioChange = (event) => {
+    setNumeroSocio(event.target.value);
+  };
 
-  const simulateLockAction = () => {
-    if (!db) return;
-
-    const doorId = 'front_door';
-    const userId = 'admin';
-    const status = Math.random() > 0.5 ? 'locked' : 'unlocked';
-    const fechaIn = new Date().toISOString();
-    const fechaOut = new Date().toISOString();
-
-    db.run(
-      'INSERT INTO logs (doorId, userId, status, fecha_In, fecha_Out) VALUES (?, ?, ?, ?, ?);',
-      [doorId, userId, status, fechaIn, fechaOut]
-    );
-
-    const res = db.exec('SELECT * FROM logs;');
-    if (res[0]) {
-      const cols = res[0].columns;
-      const values = res[0].values;
-      const formatted = values.map(row =>
-        Object.fromEntries(row.map((val, idx) => [cols[idx], val]))
-      );
-      setLogs(formatted);
-    }
+  const handleVerificar = () => {
+    console.log('Puerta Seleccionada:', puertaSeleccionada);
+    console.log('Número de Socio:', numeroSocio);
+    // Aquí deberías añadir la lógica para verificar si el número de socio
+    // tiene permiso para acceder a la puerta seleccionada.
+    // Por ejemplo, podrías hacer una petición a un servidor:
+    // fetch(`/api/verificarAcceso?puerta=${puertaSeleccionada}&socio=${numeroSocio}`)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     if (data.puedeAcceder) {
+    //       alert('Acceso concedido');
+    //       // Aquí podrías abrir la puerta (si tienes un mecanismo para hacerlo)
+    //     } else {
+    //       alert('Acceso denegado');
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error al verificar el acceso:', error);
+    //     alert('Error al verificar el acceso');
+    //   });
+    alert(`Verificando acceso para la puerta ${puertaSeleccionada} y socio ${numeroSocio}`);
   };
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>Smart Door Lock Logs</h2>
-      <button onClick={simulateLockAction}>Simular Lock/Unlock</button>
-      
-      <ul>
-        {logs.map((log, idx) => (
-          <li key={idx}>
-            <strong>{log.timestamp}</strong> — {log.doorId} / {log.userId} / {log.status}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+          <h1>Smart Door</h1>
+         
+          <div className="card">
+            <button>
+              Informes
+            </button>
+          </div>
+
+          <p className="read-the-docs">
+            Gestión inteligente de presencia
+          </p>
+
+      <div className="card">
+        <button>
+          Puerta de acceso
+        </button>
+        <select value={puertaSeleccionada} onChange={handlePuertaChange}>
+          <option value="A">Puerta A</option>
+          <option value="B">Puerta B</option>
+          <option value="C">Puerta C</option>
+        </select>
+      </div>
+
+      <div className="card">
+        <button>
+          Introduzca su nº socio:
+        </button>
+        <input
+          type="text"
+          id="numeroSocioInput"
+          value={numeroSocio}
+          onChange={handleNumeroSocioChange}
+        />
+      </div>
+
+      <div className="card">
+        <button onClick={handleVerificar}>
+          ENTRAR
+        </button>
+      </div>
+    </>
   );
 };
 
