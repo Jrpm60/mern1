@@ -1,0 +1,11 @@
+Desde la consola de docker:
+
+PS C:\users\joser\documents> docker cp pgadmin:/var/lib/pgadmin/storage/joseramonpablo_gmail.com/bck_eurovisio
+n.txt ./bck_eurovision.txt
+
+PS C:\users\joser\documents> = desde la consola de docker
+docker cp  = instruccion de copia
+pgadmin:/var/lib/pgadmin/storage/joseramonpablo_gmail.com/bck_eurovision.txt archivo origen en Docker
+------   espacio en blanco
+./bck_eurovision.txt archivo destino en el equipo 
+            "./ lo colocara en el directorio donde estamos C:\users\joser\documents>"

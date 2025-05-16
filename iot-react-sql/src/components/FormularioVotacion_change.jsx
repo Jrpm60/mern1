@@ -2,17 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, TextField, Button, Box } from '@mui/material';
 
 function FormularioVotacion() {
-  const [datosVotante, setDatosVotante] = useState({ email: '', pais: '' });
-  const [identificado, setIdentificado] = useState(false);
   const [votos, setVotos] = useState({});
   const [actuaciones, setActuaciones] = useState([]);
   const [error, setError] = useState(null);
-  const [verificando, setVerificando] = useState(false);
-  const [emitidos, setEmitidos] = useState([]);
-  
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/v1/eurovision/actuaciones')
+    fetch('http://localhost:5000/api/v1/eurovision')
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -29,40 +24,6 @@ function FormularioVotacion() {
       });
   }, []);
 
-  useEffect(() => {
-    fetch('http://localhost:5000/api/v1/eurovision/listavalidacion')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        setEmitidos(data);
-        console.log(data);
-      })
-      .catch(error => {
-        console.error('Error al obtener los votantes que han votado:', error);
-        setError(error.message);
-      });
-  }, []);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setDatosVotante({ ...datosVotante, [name]: value });
-  };
-
-  const handleVerificar = () => {
-
-    const existe = emitidos.some(usuario => usuario.email === datosVotante.email);
-    setVerificando(existe);
-
-    console.log('Usuario introducido:', datosVotante.email);
-    console.log('Usuarios emitido:', emitidos);
-    console.log('Validado:', verificando);
-
-  };
-
   const handleVotoChange = (actuacionId, event) => {
     const nuevoVoto = event.target.value;
     setVotos({ ...votos, [actuacionId]: nuevoVoto });
@@ -71,7 +32,7 @@ function FormularioVotacion() {
  const handleEnviar = async (event) => {
   event.preventDefault();
   console.log('Votos emitidos:', votos);
-  console.log('Datos del votante al enviar:', datosVotante);
+  
 
   try {
    const response = await fetch('http://localhost:5000/api/v1/votar', { // Define una ruta para enviar los votos
@@ -80,7 +41,7 @@ function FormularioVotacion() {
      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-     votante: datosVotante,
+
      votos: votos,
     }),
    });
@@ -92,14 +53,14 @@ function FormularioVotacion() {
 
    const responseData = await response.json();
    console.log('Votos enviados con éxito:', responseData);
-   // Aquí podrías mostrar un mensaje de éxito al usuario
+   // Aquí  mostrar un mensaje de éxito al usuario
    alert('¡Tus votos han sido enviados!');
-   // Opcional: resetear el estado de los votos
+   // resetear el estado de los votos
    setVotos({});
   } catch (error) {
    console.error('Error al enviar los votos:', error);
    setError(error.message);
-   // Aquí podrías mostrar un mensaje de error al usuario
+   // Aquí  mostrar un mensaje de error al usuario
    alert(`Error al enviar los votos: ${error.message}`);
   }
  };
@@ -108,41 +69,9 @@ function FormularioVotacion() {
     return <div>Cargando actuaciones...</div>;
   }
 
-  if (!identificado) {
-    return (
-      <Box sx={{ maxWidth: 400, margin: '0 auto', mt: 4, p: 2, border: '1px solid #ccc', borderRadius: 4 }}>
-        <Typography variant="h6" gutterBottom>Identificación del Votante</Typography>
-        <TextField
-          fullWidth
-          label="Correo Electrónico"
-          id="email"
-          name="email"
-          value={datosVotante.email}
-          onChange={handleInputChange}
-          margin="normal"
-        />
-        <TextField
-          fullWidth
-          label="País desde donde votas"
-          id="pais"
-          name="pais"
-          value={datosVotante.pais}
-          onChange={handleInputChange}
-          margin="normal"
-        />
-        {verificando && <Typography color="textSecondary">Verificando...</Typography>}
-        <Button variant="contained" onClick={handleVerificar} disabled={verificando} sx={{ mt: 2 }}>
-          Verificar
-        </Button>
-      </Box>
-    );
-  }
-
   return (
     <Box sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>Eurovision 2025</Typography>
-      <Typography variant="h5" gutterBottom>Correo Electrónico: {datosVotante.email}</Typography>
-      <Typography variant="h5" gutterBottom>País desde donde votas: {datosVotante.pais}</Typography>
+ 
       <Box component="form" onSubmit={handleEnviar} sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
         {actuaciones.map((actuacion) => (
           <Card key={actuacion.id_actu} sx={{ width: 'calc(10% - 16px)', minWidth: 200 }}>
@@ -163,7 +92,7 @@ function FormularioVotacion() {
                 label="Voto"
                 slotProps={{ input: {min: 1, max: 12, step: 1} }}
                 onChange={(event) => handleVotoChange(actuacion.id_actu, event)}
-                disabled={datosVotante.pais === actuacion.id_pais}
+
                 fullWidth
                 margin="normal"
               />
