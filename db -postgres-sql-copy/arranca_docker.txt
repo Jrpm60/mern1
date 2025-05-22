@@ -1,0 +1,7 @@
+_para postgres
+docker-compose up -d
+docker-compose down -d
+
+
+_para sql server
+docker-compose -f compose_server.yml up -d

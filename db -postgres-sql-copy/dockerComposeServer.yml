@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    # Cambia la imagen a una de las oficiales de Microsoft para SQL Server Express
+    image: mcr.microsoft.com/mssql/server:2019-latest-express # O ':2022-latest-express'
+    container_name: sqlserver_express
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Donostia" # Asegúrate de que esta contraseña cumpla con los requisitos de seguridad de SQL Server (mayúsculas, minúsculas, números, caracteres especiales y longitud mínima)
+      MSSQL_PID: "Express" # Esto es crucial para la versión Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:

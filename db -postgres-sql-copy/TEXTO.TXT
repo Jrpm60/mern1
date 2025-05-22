@@ -1,0 +1,34 @@
+4. Conexión desde aplicaciones (C#, Java, Python, etc.):
+Para conectar desde una aplicación, 
+necesitarás una cadena de conexión. 
+Aquí algunos ejemplos básicos:
+
+Para Autenticación de Windows:
+
+Server=NOMBRE_DE_TU_PC\SQLEXPRESS;
+Database=TU_BASE_DE_DATOS;
+Integrated Security=True;
+
+Para Autenticación de SQL Server (con usuario y contraseña):
+Server=NOMBRE_DE_TU_PC\SQLEXPRESS;
+Database=TU_BASE_DE_DATOS;
+User ID=tu_usuario;
+Password=tu_contraseña;
+
+Si has fijado el puerto 1433 y el SQL Server Browser está bloqueado o deshabilitado:
+Server=NOMBRE_DE_TU_PC,1433;
+Database=TU_BASE_DE_DATOS;
+Integrated Security=True; (para autenticación de Windows)
+
+Recuerda reemplazar:
+
+NOMBRE_DE_TU_PC con el nombre real de tu equipo.
+TU_BASE_DE_DATOS con el nombre de la base de datos a la que quieres conectar.
+tu_usuario y tu_contraseña con tus credenciales de SQL Server si usas Autenticación de SQL Server.
+Si tienes problemas para conectar, verifica los servicios de SQL Server, el firewall y la configuración de red de SQL Server en el Administrador de configuración.
+
+
+
+
+
+
