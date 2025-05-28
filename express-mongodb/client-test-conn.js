@@ -14,11 +14,38 @@ async function run() {
     // Connect the client to the server
     await client.connect();
 
-    // Run admin commands
+    const database = client.db("clase");
+const productos = database.collection("productos");
+
+
+const pipeline = 
+[
+  {
+    $group:
+      /**
+       * _id: The id of the group.
+       * fieldN: The first field name.
+       */
+      {
+        _id: "$nombreProducto",
+        total_cantidad: {
+          $sum: "$cantidad"
+        }
+      }
+  }
+]
+  
+
+
+const result = await productos.aggregate(pipeline).toArray();
+
+console.log(result);
+
+    /* // Run admin commands
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
     const buildInfo = await client.db("admin").command({ buildInfo: 1 });
-    console.log("Build Info:", buildInfo);
+    console.log("Build Info:", buildInfo); */
 
   } catch (error) {
     console.error("Error connecting to MongoDB or running commands:", error);

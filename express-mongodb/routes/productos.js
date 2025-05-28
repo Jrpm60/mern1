@@ -28,7 +28,19 @@ router.get('/search', async (req, res) => {
   }
 });
 
+router.post('/productos', async (req, res) => {
+  try {
+    const db = req.app.locals.db; // get db instance from app.locals
+    const newProducto = req.body;
+    
+    const result = await db.collection('productos').insertOne(newProducto);
 
+    res.json(result);
+  } catch (error) {
+    console.error("Error Creando el producto:", error);
+    res.status(500).json({ error: 'Failed to create producto' });
+  }
+});
 
 router.delete('/:id', async (req, res) => {
   try {
@@ -36,11 +48,6 @@ router.delete('/:id', async (req, res) => {
     const db = req.app.locals.db;
     const id = req.params.id;
 
-    // If your id is ObjectId, import ObjectId from mongodb and convert
-    // import { ObjectId } from 'mongodb';
-    // const result = await db.collection('productos').deleteOne({ _id: new ObjectId(id) });
-
-    // For now, just dummy response:
     res.json({ message: `DELETE producto with id: ${id}` });
   } catch (error) {
     console.error("Error deleting producto:", error);

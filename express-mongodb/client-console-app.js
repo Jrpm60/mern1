@@ -24,15 +24,37 @@ async function fetchMinProductos(minPrecio) {
   }
 }
 
+async function guardarProducto(newProducto) {
+  try {
+    // El REST endpoint no existe - habrá que implementarlo en el servidor
+    const response = await fetch(`http://localhost:5000/api/v1/productos`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(newProducto)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+        console.error('Error fetching products:', error);
+  }
+}
+
+  
+
+
+
+
+
+
 const totalInventoryValue = (productos) => {
   // usar reduce()
-    
+  return productos.reduce((total, p ) => total + (p.precio * p.cantidad), 0);
 }
 
 
-const productosActivos = (productos) => {
-    // usar filter()
-}
+
 
 async function main() {
   const prompt = promptSync();
@@ -45,7 +67,8 @@ async function main() {
         2. Total valor de inventario (precio * cantidad)
         3. Mostrar productos con un < precio maximo 
         4. Mostrar productos activos
-        5. Exit`);
+        5. CRUD
+        6. Exit`);
 
     const choice = prompt('Elegir una acción: ').trim();
 
@@ -56,6 +79,7 @@ async function main() {
 
     else if (parseInt(choice) == 2) { 
         const productos = await fetchProductos();
+        //console.log(productos);
         let totalValue = totalInventoryValue(productos);
         console.log(`Total valor de inventario es ${totalValue}`);
     }
@@ -72,10 +96,71 @@ async function main() {
     console.log(productosActivos);
     }
         
-        
-    
+    else if (parseInt(choice) == 5) { 
+      //---------------------------------------------------------------------------------
+              while (running) {
+                    console.log(
+                      `\n--- CRUD ---
+                      1. Insertar Producto
+                      2. Modificar Producto
+                      3. Eliminar Producto 
+                      4. Volver al Gestor`);
+
+                    const choice1 = prompt('Elegir una acción: ').trim();
+
+                    if (parseInt(choice1)== 1) {
+                        //preguntar por el producto
+                      const producto_id = prompt ( "ID Producto: ");
+                      const productoNombre = prompt ( "Nombre: ");
+                      const precio = prompt ( "Precio: ");
+                      const cantidad = prompt ( "Cantidad: ");
+                      const activo = prompt ( "Activo: ");
+
+                       const newProducto = {
+                              producto_id: producto_id, 
+                              nombre: productoNombre,
+                              precio: parseFloat(precio), 
+                              cantidad: parseInt(cantidad), 
+                              activo: true //ctivo.toLowerCase() === 'true' 
+                              };
+                        const result = await guardarProducto(newProducto);
+                        console.log(newProducto);
+
+                    } 
+
+                    else if (parseInt(choice1) == 2) { 
+                        const productos = await fetchProductos();
+                        //console.log(productos);
+                        let totalValue = totalInventoryValue(productos);
+                        console.log(`Total valor de inventario es ${totalValue}`);
+                    }
+
+                    else if (parseInt(choice1) === 3) {
+                        const productos = await fetchMinProductos(15);
+                        console.log(productos);
+                    
+                    }
+
+                    else if (parseInt(choice1) === 4) {
+                    const productos = await fetchProductos();
+                    const productosActivos = productos.filter(producto => producto.activo === true); 
+                    console.log(productosActivos);
+                    }
+                            
+                    else {
+                        running = false;
+                    }
+
+              };
+      //--------------------------------------------------------------------
+
+    }
+
+
+
+
   
-    /* else if (parseInt(choice) == 5) { 
+    /* else if (parseInt(choice) == 6) { 
     const productos = await fetchProductos();
         
         
