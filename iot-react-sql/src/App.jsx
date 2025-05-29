@@ -1,12 +1,12 @@
 
 import './App.css';
-import FormularioVotacion from './components/FormularioVotacion';
+import Carreras_web from './components/Carreras_web';
 
 
 function App() {
   return (
     <div className="App">
-        <FormularioVotacion />
+        <Carreras_web />
     </div>
   );
 }

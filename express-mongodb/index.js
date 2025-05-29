@@ -3,7 +3,7 @@ import path from "path";
 import cors from 'cors';
 import { fileURLToPath } from "url";
 import connectDB from './db-mongodb.js';  // Import your MongoDB connection module
-import productosRouter from './routes/productos.js';
+import carrerasRouter from './routes/carreras.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +23,7 @@ async function startServer() {
     app.locals.db = db;
 
     // Mount routes
-    app.use('/api/v1/productos', productosRouter);
+    app.use('/api/v1/carreras', carrerasRouter);
 
 
     

@@ -41,12 +41,6 @@ async function guardarProducto(newProducto) {
   }
 }
 
-  
-
-
-
-
-
 
 const totalInventoryValue = (productos) => {
   // usar reduce()
@@ -98,58 +92,55 @@ async function main() {
         
     else if (parseInt(choice) == 5) { 
       //---------------------------------------------------------------------------------
-              while (running) {
-                    console.log(
-                      `\n--- CRUD ---
-                      1. Insertar Producto
-                      2. Modificar Producto
-                      3. Eliminar Producto 
-                      4. Volver al Gestor`);
 
-                    const choice1 = prompt('Elegir una acción: ').trim();
+            let crudRunning = true; // Variable para controlar SOLO el bucle del CRUD
+            while (crudRunning) {
+                console.log(
+                    `\n--- CRUD ---
+                    1. Insertar Producto
+                    2. Modificar Producto
+                    3. Eliminar Producto 
+                    4. Volver al Gestor`); 
 
-                    if (parseInt(choice1)== 1) {
-                        //preguntar por el producto
-                      const producto_id = prompt ( "ID Producto: ");
-                      const productoNombre = prompt ( "Nombre: ");
-                      const precio = prompt ( "Precio: ");
-                      const cantidad = prompt ( "Cantidad: ");
-                      const activo = prompt ( "Activo: ");
+                const choice1 = prompt('Elegir una acción: ').trim();
 
-                       const newProducto = {
-                              producto_id: producto_id, 
-                              nombre: productoNombre,
-                              precio: parseFloat(precio), 
-                              cantidad: parseInt(cantidad), 
-                              activo: true //ctivo.toLowerCase() === 'true' 
-                              };
-                        const result = await guardarProducto(newProducto);
-                        console.log(newProducto);
-
-                    } 
-
-                    else if (parseInt(choice1) == 2) { 
-                        const productos = await fetchProductos();
-                        //console.log(productos);
-                        let totalValue = totalInventoryValue(productos);
-                        console.log(`Total valor de inventario es ${totalValue}`);
-                    }
-
-                    else if (parseInt(choice1) === 3) {
-                        const productos = await fetchMinProductos(15);
-                        console.log(productos);
+                if (parseInt(choice1) == 1) {
                     
-                    }
+                    const producto_id = prompt ( "ID Producto (dejar en blanco para autogenerar en MongoDB): "); 
+                    const productoNombre = prompt ( "Nombre: ");
+                    const precio = prompt ( "Precio: ");
+                    const cantidad = prompt ( "Cantidad: ");
+                    const activoInput = prompt ( "Activo (true/false): ");
 
-                    else if (parseInt(choice1) === 4) {
+                    const newProducto = {
+                        producto_id: producto_id,
+                        nombre: productoNombre,
+                        precio: parseFloat(precio), 
+                        cantidad: parseInt(cantidad), 
+                        activo: activoInput.toLowerCase() === 'true'
+                    };
+                    const result = await guardarProducto(newProducto);
+                    console.log("Producto a enviar:", newProducto);
+                    console.log("Resultado de la inserción:", result);
+                } 
+                else if (parseInt(choice1) == 2) { 
                     const productos = await fetchProductos();
-                    const productosActivos = productos.filter(producto => producto.activo === true); 
-                    console.log(productosActivos);
-                    }
-                            
-                    else {
-                        running = false;
-                    }
+                    let totalValue = totalInventoryValue(productos);
+                    console.log(`Total valor de inventario es ${totalValue}`);
+                    console.log("Modificar Producto: Lógica no implementada aún."); 
+                }
+                else if (parseInt(choice1) === 3) {
+                    const productos = await fetchMinProductos(15);
+                    console.log(productos);
+                    console.log("Eliminar Producto: Lógica no implementada aún.");
+                }
+                else if (parseInt(choice1) === 4) {
+                    crudRunning = false; 
+                }
+                else {
+                    console.log("Opción no válida en el menú CRUD.");
+                    
+                }
 
               };
       //--------------------------------------------------------------------

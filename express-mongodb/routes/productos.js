@@ -28,7 +28,12 @@ router.get('/search', async (req, res) => {
   }
 });
 
-router.post('/productos', async (req, res) => {
+router.post('/', async (req, res) => {
+
+  console.log('Petición POST recibida para /productos');
+  console.log('Datos recibidos en req.body:', req.body); 
+
+
   try {
     const db = req.app.locals.db; // get db instance from app.locals
     const newProducto = req.body;
@@ -36,6 +41,7 @@ router.post('/productos', async (req, res) => {
     const result = await db.collection('productos').insertOne(newProducto);
 
     res.json(result);
+
   } catch (error) {
     console.error("Error Creando el producto:", error);
     res.status(500).json({ error: 'Failed to create producto' });
