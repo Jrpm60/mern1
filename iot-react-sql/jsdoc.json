@@ -1,0 +1,16 @@
+// frontend_qtl66/jsdoc.json
+{
+  "source": {
+    "include": ["src"], // Incluye la carpeta 'src' donde está tu código React
+    "includePattern": ".+\\.(js|jsx)$",  // Solo procesa archivos .js (puedes añadir .jsx si es necesario)
+    "excludePattern": "(node_modules/|docs)" // Excluye node_modules y la carpeta 'docs' de salida
+  },
+  "opts": {
+    "encoding": "utf8", // Codificación de los archivos
+    "destination": "./docs", // Carpeta donde se generará la documentación
+    "recurse": true, // Busca archivos en subcarpetas
+    "readme": "./README.md", // Opcional: Incluye tu README.md en la documentación
+    "template": "node_modules/jsdoc/templates/default" // Plantilla por defecto (puedes usar otras)
+  },
+  "plugins": [] // Puedes añadir plugins de JSDoc aquí si los necesitas
+}
