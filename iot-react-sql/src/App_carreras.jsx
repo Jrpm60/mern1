@@ -1,12 +1,12 @@
 
 import './App.css';
-import Dogs from './components/dogs';
+import Carreras_web from './components/Carreras_web';
 
 
 function App() {
   return (
     <div className="App">
-        <Dogs />
+        <Carreras_web />
     </div>
   );
 }

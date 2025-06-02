@@ -6,6 +6,7 @@ import cors from 'cors';
 import { fileURLToPath } from "url";
 import connectDB from './db-mongodb.js';  // Import your MongoDB connection module
 import carrerasRouter from './routes/carreras.js';
+import productosRouter from './routes/productos.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +27,7 @@ async function startServer() {
 
     // Mount routes
     app.use('/api/v1/carreras', carrerasRouter);
+    app.use('/api/v1/productos', productosRouter);
 
 
     
