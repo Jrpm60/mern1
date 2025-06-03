@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-import Polling from './components/Polling'
+import Chat1 from './components/Chat1'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Polling />
+      <Chat1/>
     </>
   )
 }
