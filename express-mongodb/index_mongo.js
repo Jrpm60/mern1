@@ -29,9 +29,6 @@ async function startServer() {
     app.use('/api/v1/carreras', carrerasRouter);
     app.use('/api/v1/productos', productosRouter);
 
-
-    
-
     // Start the server
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);

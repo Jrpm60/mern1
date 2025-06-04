@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-import Chat1 from './components/Chat1'
+import ChatRoom from './components/ChatRoom'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Chat1/>
+      <ChatRoom/>
     </>
   )
 }
