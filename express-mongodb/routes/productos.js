@@ -2,6 +2,41 @@ import { Router } from 'express';
 
 const router = Router();
 
+/**
+ * @swagger
+ * /productos:
+ *   get:
+ *     summary: Obtener todos los productos
+ *     description: Devuelve una lista de todos los productos disponibles.
+ *     tags:
+ *       - Productos
+ *     responses:
+ *       200:
+ *         description: Lista de productos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     example: "664f173bd4e2b36c50ac9b1a"
+ *                   nombre:
+ *                     type: string
+ *                     example: "Guitarra eléctrica"
+ *                   precio:
+ *                     type: number
+ *                     example: 499.99
+ *                   enStock:
+ *                     type: boolean
+ *                     example: true
+ *       500:
+ *         description: Error del servidor
+ */
+
+
 // GET /api/v1/productos
 router.get('/', async (req, res) => {
   try {
@@ -47,6 +82,40 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to create producto' });
   }
 });
+
+/**
+ * @swagger
+ * /productos:
+ *   delete:
+ *     summary: Borrar productos
+ *     description: Borra el pruducto elegudo.
+ *     tags:
+ *       - Productos
+ *     responses:
+ *       200:
+ *         description: Lista de productos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     example: "664f173bd4e2b36c50ac9b1a"
+ *                   nombre:
+ *                     type: string
+ *                     example: "Guitarra eléctrica"
+ *                   precio:
+ *                     type: number
+ *                     example: 499.99
+ *                   enStock:
+ *                     type: boolean
+ *                     example: true
+ *       500:
+ *         description: Error del servidor
+ */
 
 router.delete('/:id', async (req, res) => {
   try {
