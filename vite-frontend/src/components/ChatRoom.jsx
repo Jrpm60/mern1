@@ -1,3 +1,6 @@
+//vite-frontend/src/components/ChatRoom.jsx
+
+
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
@@ -11,48 +14,72 @@ function ChatRoom() {
   const [messages, setMessages] = useState([]);
   const [room, setRoom] = useState('Room1');
   const [nick, setNick] = useState('');
-  const [chats, setChats] = useState ([]);
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to socket');
-      setConnected(true);
-      socket.emit('joinRoom', room);
-    });
+  //const [chats, setChats] = useState ([]);
+  const [chatHistory, setChatHistory] = useState([]);
 
-    socket.on('chatRoomMessage', (msg) => {
-      console.log('Received message:', msg); // Para depurar
-      setMessages(prev => [...prev, msg]);
-    });
+useEffect(() => {
+  const onConnect = () => {
+    console.log('Connected to socket');
+    setConnected(true);
+    socket.emit('joinRoom', room);
+  };
 
-    socket.on('disconnect', () => {
-      console.log('Disconnected from socket');
-      setConnected(false);
-    });
+  const onDisconnect = () => {
+    console.log('Disconnected from socket');
+    setConnected(false);
+  };
 
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-      socket.off('chatRoomMessage');
-    };
-  }, []);
+  const onMessage = (msg) => {
+    console.log('Received message:', msg);
+    setMessages(prev => [...prev, msg]);
+  };
+
+  socket.on('connect', onConnect);
+  socket.on('disconnect', onDisconnect);
+  socket.on('chatRoomMessage', onMessage);
+
+  socket.emit('joinRoom', room); // importante
+
+  return () => {
+    socket.off('connect', onConnect);
+    socket.off('disconnect', onDisconnect);
+    socket.off('chatRoomMessage', onMessage);
+  };
+}, [room]);
 
   const handleDisconnect = () => {
     socket.disconnect();
     setConnected(false);
   };
 
-  const sendChatRoom = () => {
-    if (!input || !nick) return;
+const sendChatRoom = () => {
+  if (!input || !nick) return;
 
-    const msg = { room: room, message: input, nick: nick };
-    socket.emit('chatRoomMessage', msg);
-    setMessages(prev => [...prev, msg]); // Mostrar también el propio mensaje
-    setInput('');
-  };
+  const msg = { room: room, message: input, nick: nick, own: true }; 
+  socket.emit('chatRoomMessage', msg);
+  setMessages(prev => [...prev, msg]);
+  setInput('');
+};
 
-  const histChat = () => {
-    
-  };
+const histChat = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/api/v1/chat');
+    if (!response.ok) throw new Error('Error al obtener historial');
+
+    const data = await response.json();
+
+    const formatted = data.map(chat => ({
+      message: chat.messageDoc,
+      nick: chat.nickDoc,
+      room: chat.roomDoc,
+      timestamp: chat.timestampDoc?.$date || chat.timestampDoc,
+    }));
+
+    setChatHistory(formatted); // ← Guardar en otro estado
+  } catch (err) {
+    console.error('Error al traer el historial:', err);
+  }
+};
 
 
 
@@ -89,7 +116,7 @@ function ChatRoom() {
         {messages.map((msg, index) => {
           if (!msg || !msg.message || !msg.nick) return null;
 
-          const isOwnMessage = msg.nick === nick;
+          const isOwnMessage = msg.own || msg.nick === nick;
 
           return (
             <div
@@ -138,6 +165,52 @@ function ChatRoom() {
           Desconectar
         </button>
       )}
+
+      {chatHistory.length > 0 && (
+        <div style={{ marginTop: 20, padding: 10, borderTop: '2px solid #ccc' }}>
+          <h3>🗂 Historial de Chats</h3>
+          <div style={{ maxHeight: 200, overflowY: 'auto' }}>
+            {chatHistory.map((msg, index) => (
+              <div
+                key={index}
+                style={{
+                  marginBottom: 8,
+                  padding: 8,
+                  backgroundColor: '#f5f5f5',
+                  borderRadius: 5,
+                  fontSize: 14,
+                }}
+              >
+                <strong>{msg.nick}</strong> 
+                <em style={{ color: '#555' }}>({msg.room})</em>
+
+                <span style={{ fontSize: 12, color: '#888', marginLeft: 8 }}>
+                {msg.timestamp ? new Date(msg.timestamp).toLocaleString() : 'Fecha no disponible'}
+                </span>
+
+                : {msg.message}
+
+
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
   );
 }
