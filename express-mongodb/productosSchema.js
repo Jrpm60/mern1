@@ -10,7 +10,7 @@ export const typeDefs = /* GraphQL */ `
 
 
   type Query {
-    productos(cantidadMin: Int): [Producto!]!
+    productos: [Producto!]!
     producto(id: ID!): Producto
   }
 
@@ -31,16 +31,9 @@ export const typeDefs = /* GraphQL */ `
 
 export const resolvers = {
   Query: {
-    productos: async (_parent, args, context) => {
+    productos: async (_parent, _args, context) => {
       const db = context.db;
-
-    const query = {};
-      if (args.cantidadMin !== undefined) {
-        query.cantidad = { $gte: args.cantidadMin };
-      }
-
-
-      return await db.collection('productos').find(query).toArray();
+      return await db.collection('productos').find().toArray();
     },
     producto: async (_parent, { id }, context) => {
       const db = context.db;

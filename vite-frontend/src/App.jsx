@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-import RecetasFrontend from './components/RecetasFrontend'
+import Likes from './components/Likes'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
-      <RecetasFrontend/>
+      <Likes/>
     </>
   )
 }

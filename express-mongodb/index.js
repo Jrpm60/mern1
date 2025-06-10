@@ -4,8 +4,9 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 
 import { createYoga, createSchema } from 'graphql-yoga';
-import { typeDefs, resolvers } from './recetasSchema.js';
+import { typeDefs, resolvers } from '../kafka_backend/likesSchema.js';
 
+import { Kafka } from 'kafkajs';
 
 import connectDB from './db-mongodb.js';
 
@@ -13,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 // Middleware
 app.use(cors());
@@ -24,6 +25,7 @@ async function startServer() {
     // Connect to MongoDB
     const db = await connectDB();
     app.locals.db = db;
+
 
     // Setup GraphQL Yoga
     const yoga = createYoga({
@@ -39,6 +41,35 @@ async function startServer() {
 
     // Mount Yoga at /graphql
     app.use('/graphql', yoga);
+
+    // === Kafka consumer setup ===
+      const kafka = new Kafka({
+        clientId: 'express-kafka-consumer',
+        brokers: ['localhost:29092'], // adjust broker address if needed
+      });
+  
+      const consumer = kafka.consumer({ groupId: 'productos-group' });
+  
+      await consumer.connect();
+      await consumer.subscribe({ topic: 'productos', fromBeginning: true });
+  
+      consumer.run({
+        eachMessage: async ({ topic, partition, message }) => {
+          const value = message.value.toString();
+          console.log(`Kafka message received on topic ${topic}:`, value);
+          // You can parse JSON here if your messages are JSON
+          try {
+            const data = JSON.parse(value);
+            console.log('Parsed data:', data);
+            const res = await db.collection("productos").insertOne(data);
+            
+          } catch {
+            // not JSON, just log raw value
+          }
+        },
+      });
+      // === end Kafka consumer setup ===
+    
 
     // Start server
     app.listen(PORT, () => {
