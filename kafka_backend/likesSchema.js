@@ -15,12 +15,12 @@ await producer.connect();
 // --- GraphQL schema ---
 export const typeDefs = /* GraphQL */ `
   type Like {
-    _id: Int!
+    id: Int!
     valoracion: Int!
   }
 
   input LikeInput {
-    _id: Int!
+    id: Int!
     valoracion: Int!
   }
 
@@ -41,6 +41,9 @@ export const resolvers = {
   },
   Mutation: {
     addLike: async (_parent, { input }) => {
+      console.log("hola");
+      console.log("Datos recibidos en addLike:", input);
+
       await producer.send({
         topic: 'likes',
         messages: [{ value: JSON.stringify({ type: 'add', data: input }) }],

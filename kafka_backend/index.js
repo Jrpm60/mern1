@@ -4,7 +4,7 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 
 import { createYoga, createSchema } from 'graphql-yoga';
-import { typeDefs, resolvers } from './likesSchema.js';
+import { typeDefs, resolvers } from './kafka-bancoSchema.js';
 
 
 const __filename = fileURLToPath(import.meta.url);

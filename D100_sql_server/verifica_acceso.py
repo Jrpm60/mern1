@@ -2,9 +2,9 @@ import pyodbc
 
 # Datos de conexión
 server = 'SERVIDOR\\SQLEXPRESS'
-database = 'D100_APALATEGI'
+database = ''
 username = 'sa'
-password = 'Donostia'  # <-- Cambia esto
+password = ''  # <-- Cambia esto
 
 # Cadena de conexión
 conn_str = (

@@ -20,27 +20,23 @@ export default function Kafka() {
   };
 
   
-  const handleSubmitRating = async (postId) => {
-    
-    const valoracion = parseFloat(postRatings[postId]);
-
-    
-    if (isNaN(valoracion) || valoracion < 1 || valoracion > 5) {
-      setMessage(`❌ Por favor, ingresa una valoración válida (1-5) para el curso ID ${postId}.`);
-      return; 
-    }
-
+  const handleSubmitRating = async (postId) => {    
+    const valoracion = parseFloat(postRatings[postId]);    
+      if (isNaN(valoracion) || valoracion < 1 || valoracion > 5) {
+        setMessage(`❌ Por favor, ingresa una valoración válida (1-5) para el curso ID ${postId}.`);
+        return; 
+      }
     const query =
-     ` mutation Addlike($input: likeInput!) { addlike(input: $input) } `;
-
-    const opinion = {
+     ` mutation Addlike($input: LikeInput!) { addLike(input: $input) } `;
+     
+    const variables = { 
       input: {
-        postId: postId, 
+        id: postId, 
         valoracion: valoracion,
       },
     };
 
-    console.log(`Enviando valoración para el Post ID ${postId}:`, opinion);
+    console.log(`Enviando valoración para el Post ID ${postId}:`, variables);
 
     try {
       const response = await fetch('http://localhost:5001/graphql', {
@@ -48,16 +44,12 @@ export default function Kafka() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query, 
-          
-          
-          
-          variables: opinion }),
+        body: JSON.stringify({ query, variables }),
       });
 
       const result = await response.json();
 
-      if (result.data?.addlike) {
+      if (result.data?.addLike) {
         setMessage(`✅ Valoración para el Post ID ${postId} enviada con éxito.`);
        
       } else {
@@ -103,7 +95,7 @@ export default function Kafka() {
         </div>
       ))}
 
-      {/* El mensaje de estado se mostrará aquí */}
+     
       {message && <p style={{ marginTop: '20px', color: message.startsWith('✅') ? 'green' : 'red', fontWeight: 'bold' }}>{message}</p>}
     </div>
   );

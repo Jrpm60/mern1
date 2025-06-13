@@ -51,7 +51,7 @@ async function startServer() {
       const consumer = kafka.consumer({ groupId: 'productos-group' });
   
       await consumer.connect();
-      await consumer.subscribe({ topic: 'productos', fromBeginning: true });
+      await consumer.subscribe({ topic: 'likes', fromBeginning: true });
   
       consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
@@ -61,7 +61,7 @@ async function startServer() {
           try {
             const data = JSON.parse(value);
             console.log('Parsed data:', data);
-            const res = await db.collection("productos").insertOne(data);
+            const res = await db.collection("likes").insertOne(data);
             
           } catch {
             // not JSON, just log raw value

@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-import Likes from './components/Likes'
+import BancoFraude from './components/BancoFraude.jsx'
 
 function App() {
   
 
   return (
     <>
-      <Likes/>
+      <BancoFraude/>
     </>
   )
 }
