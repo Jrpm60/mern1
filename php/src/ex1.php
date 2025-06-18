@@ -6,7 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    Hola, desde index.html
-    <script src="https://gist.github.com/Jrpm60/e51b24997b6cf80dd8cb541e0e05238d.js"></script>
+    <h1> Hola </h1>
+    <p>
+        <?php
+            echo "<b>Este es el servidor de PHP</b> <br>";
+            echo "segunda linea";
+        ?>
+
 </body>
 </html>
