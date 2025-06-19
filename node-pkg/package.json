@@ -1,0 +1,28 @@
+{
+  "name": "pkg",
+  "version": "1.0.0",
+  "bin": "main.js",
+  "description": "",
+  "main": "index.js",
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "pkg": "^5.8.1"
+  },
+  "pkg": {
+   "output": "main.exe",
+    "assets": [
+      "images/*"
+    ],
+    "targets": [
+      "node18-win-x64"
+      
+    ]
+  }
+}
