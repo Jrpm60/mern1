@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import './App.css'
-import BancoFraude from './components/BancoFraude.jsx'
+import {LazyLoad} from './components/LazyLoad'
 
 function App() {
-  
 
+  
   return (
     <>
-      <BancoFraude/>
+          <h1>Hola</h1>
+          <LazyLoad />
+          
     </>
   )
 }
